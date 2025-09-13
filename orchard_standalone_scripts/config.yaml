@@ -1,0 +1,31 @@
+map_usd: assets/usd/orchard/orchard_1.usda
+robot_usd: assets/usd/rover/rover.usda
+robot_prim: /World/robot
+robot_xyz: [0.0, 0.0, 2.0]
+robot_rpy: [0.0, 0.0, 0.0]
+
+sim:
+  active_gpu: 0
+  multi_gpu: false
+  width: 1280
+  height: 720
+  window_width: 1920
+  window_height: 1080
+  headless: false
+  hide_ui: false
+  display_options: 3286
+
+camera:
+  link_rel: /rgbd_camera_mount_link
+  resolution: [640, 480]
+
+lidar:
+  rel: /lidar_mount_link/lidar
+  config: OS2
+  variant: OS2_REV7_128ch10hz1024res
+  enable_2d: true
+
+app:
+  show_ui: false
+  renderer: HydraStorm
+

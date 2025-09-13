@@ -1,0 +1,67 @@
+services:
+  isaac_sim:
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile
+    container_name: kimm_isaac_sim
+    hostname: kimm
+    privileged: true
+
+    # GPU: docker compose에서 swarm 없는 일반 모드라면 아래가 안전
+    gpus: all
+
+    environment:
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # 필요시에만 GUI/X11 노출. 기본은 headless 개발이라면 주석 권장
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+
+    volumes:
+      # X11 (GUI 쓸 때만)
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # 절대경로로 치환(여기 중요) — ~ 는 확장 안됨
+      - /home/daniel/aomr_project/mnt:/root/mnt:rw
+      - /home/daniel/aomr_project/isaac_sim_orchard/orchard_standalone_scripts:/root/orchard_standalone_scripts:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/kit/cache/Kit:/isaac-sim/kit/cache:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/cache/ov:/root/.cache/ov:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/cache/pip:/root/.cache/pip:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/data:/root/.local/share/ov/data:rw
+      - /home/daniel/isaac_sim_cache/docker_isaac-sim/documents:/root/Documents:rw
+
+    network_mode: host
+    stdin_open: true
+    tty: true
+    # Dockerfile에서 이미 ENTRYPOINT/CMD로 sleep infinity 설정함
+    # 여기서는 추가 지정 불필요
+
+  # (선택) 한 번만 ROS2 세팅하고 싶은 경우
+  setup_ros2:
+    image: kimm_isaac_sim:latest
+    depends_on: [isaac_sim]
+    network_mode: host
+    gpus: all
+    entrypoint: ["/bin/bash", "-lc"]
+    command: ["/root/setup_ros2.sh"]
+    profiles: ["setup"]
+
+  # (선택) Isaac Sim 실행용
+  run_isaac:
+    image: kimm_isaac_sim:latest
+    depends_on: [isaac_sim]
+    network_mode: host
+    gpus: all
+    entrypoint: ["/bin/bash", "-lc"]
+    command: ["/isaac-sim/runapp.sh --no-window"]  # GUI면 --no-window 제거
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    profiles: ["run"]

@@ -1,0 +1,28 @@
+# Isaac Sim and container caches (use mounted host dirs instead)
+/.cache/
+/.nv/
+/Documents/
+/.nvidia-omniverse/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# VSCode / editor
+.vscode/
+.idea/
+
+# Docker
+.dockerignore
+
+# Logs and temp
+*.log
+tmp/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
