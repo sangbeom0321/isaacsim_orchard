@@ -4,6 +4,8 @@
 /Documents/
 /.nvidia-omniverse/
 
+assets/
+
 # Python
 __pycache__/
 *.pyc

@@ -1,0 +1,69 @@
+Ground:
+  ground_usdc_path: "/meshes/world/unstructured_orchard/ground1.usdc"
+  ground_prim_path: "/World/Ground"
+  ground_position: [0, 0, 0]
+  ground_scale: [1.0, 1.0, 1.0]
+
+Tree:
+  scale_range: [0.2, 0.201]
+
+  tree1_usdc_path: "/meshes/world/unstructured_orchard/Tree1.usdc"
+  tree2_usdc_path: "/meshes/world/unstructured_orchard/Tree2.usdc"
+  # tree3_usdc_path: "/meshes/world/unstructured_orchard/Scrawny_Tree1.usdc"
+  # tree4_usdc_path: "/meshes/world/unstructured_orchard/Scrawny_Tree2.usdc"  
+  tree3_usdc_path: "/meshes/world/unstructured_orchard/Tree1.usdc"
+  tree4_usdc_path: "/meshes/world/unstructured_orchard/Tree2.usdc"
+
+  x_max: 14.          # x축 최대값
+  x_min: -14.         # x축 최소값
+  y_max: 10.0          # y축 최대값
+  y_min: -10.0         # y축 최소값
+  y_step: 4.5          # y축 간격
+  x_spacing_range: [2.5, 3.0]  # x축 간격 범위 (최소, 최대)
+  x_start_range: [0, 3]  # x축 시작 범위 (최소, 최대), 라인 끝 범위와 같음
+
+  skip_spawn_rate: 0 # % 확률로 트리 생성 스킵
+
+Layout:
+  center_xyz: [15.0, 9.0, 1.0]     # 전체 배치의 중심을 월드 (x,y)로 맞춤 (생략하면 현 배치 중심 유지)
+  yaw_deg: 0.0               # 중심을 기준으로 시계 반대방향 회전(도 단위)
+  rotate_trees_with_layout: false  # true면 각 나무의 yaw에도 yaw_deg를 더함
+
+Terrain:
+  prim_path: "/World/Terrain"
+  width_m: 60.0
+  length_m: 25.0
+  horizontal_scale_m: 0.25
+  vertical_scale_m: 0.005
+
+  position_xyz: [-3.0, -3.0, 1.0]
+  orientation_xyzw: [0.0, 0.0, 0.0, 1.0]
+
+  color_rgb: [0.3647, 0.2118, 0.1333]
+  roughness: 0.9
+  metallic: 0.0
+
+  method: "fbm"   # "fbm" 또는 "bumps"
+  seed: 42
+
+  fbm:
+    octaves: 4
+    base_res: 8
+    lacunarity: 2.0
+    gain: 0.55
+    amplitude_m: 0.18
+    smooth_iters: 2
+
+  bumps:
+    n_bumps: 120
+    amp_range_m: [0.05, 0.25]
+    sigma_range_m: [0.4, 1.6]
+    plateau: true
+
+  walls:
+    enabled: true
+    height_m: 3.0
+    thickness_m: 0.1
+    margin_m: -0.5          # 벽을 지형 경계 바깥/안쪽으로 얼마나 띄울지 (+는 바깥)
+    base_z: 0.0            # 벽 바닥 z (지형이 음수로 내려가면 여기를 음수로)
+    color_rgb: [0.6, 0.6, 0.6]

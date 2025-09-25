@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>isaacsim_orchard</name>
+  <version>0.1.0</version>
+  <description>ROS 2 orchestration package for NVIDIA Isaac Sim (5.0.0)</description>
+
+  <maintainer email="you@example.com">Your Name</maintainer>
+  <license>MIT</license>
+
+  <!-- Build tool -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- 런타임 의존 패키지 (스크립트에서 사용하는 ROS2 메시지 등) -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <!-- launch 파일 쓸 경우 -->
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <!-- 선택: ament_index_python을 써서 share 디렉토리 경로를 얻을 때 -->
+  <exec_depend>ament_index_python</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

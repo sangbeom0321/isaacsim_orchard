@@ -1,0 +1,92 @@
+World:
+  using_simple_ground_plane : True # For robot test or simple map
+  physics_freq : 360.0 # world physics_dt = 1/physics_freq
+  rendering_freq : 60.0 # world rendering_dt = 1/rendering_freq
+  # city_usd_path : "/usd/kimm_city/kimm_city.usda" # In package
+  # city_usd_path : "/usd/orchard_geometry/orchard_geometry.usd" # In package
+  city_usd_path : "{PACKAGE}/assets/usd/orchard_1.usda" # In package
+  city_prim_path : "/World/City"
+  city_name : "City"
+
+  light_prim_path : "/World/Light"
+  light_intensity : 1200
+  light_colortemperature : 6500.0
+  light_name : "Light"
+
+Drone:
+  is_valid : False # On/Off of spawn drone station
+  drone_usd_path : "/usd/drone_frame/drone_frame.usd" # In package
+  drone_prim_path : "/World/Drone_frame" # In package
+  drone_name : "Drone_frame"
+  drone_translation: [5.0, 7.5, 0.85]
+  drone_orientation: [0, 0, 90]
+  drone_scale : [1.5, 1.5, 1.5] # x, y, z axis
+
+Robot:
+  is_valid : True # On/Off of spawn robot
+  robot_prim_path : "/World/robot"
+  robot_base_link_prim : "/World/robot/base_link"
+  robot_name : "robot"
+  robot_frame_id : "base_link"
+  # usd_path : "/usd/kimm_4ws/kimm_4ws.usd" # In package
+  usd_path : "{PACKAGE}/assets/usd/rover/rover/rover.usda" # In package
+  
+  robot_spawn_position : [0, 0, 2.25] # x, y, z
+  robot_spawn_rotation: [0, 0, 0] # roll, pitch, yaw
+
+  graph_prim_path : "/World/ActionGraph"
+  joint_state_topic_name : "isaac_joint_states"
+  joint_command_topic_name : "isaac_joint_commands"
+  tf_topic : "/tf"
+
+Camera:
+  camera_prim_path : "/base_link/depth_camera_link" # Start from robot_prim_path path
+  camera_optical_prim_path : "/RSD455" # Start from robot_prim_path path
+  camera_freq :  30
+  camera_topic_name :  "/camera" # Topic pub with /image_raw, /camera_info, /depth_raw 3 topics
+  camera_frame_id :  "camera"
+  queue_size :  1
+  camera_translation: [0.0, 0.0, 0.4] # x, y, z
+  camera_orientation: [-90.0, 90.0, 0.0]
+
+LiDAR:
+  lidar_prim_path: "/lidar_link/lidar" # Start from robot_prim_path path
+  lidar_parent: null
+  lidar_config: "OS2"
+  lidar_translation: [0.0, 0, 0.0]
+  lidar_orientation: [-90.0, 0.0, 0.0]
+  lidar_frame_id :  "lidar_link"
+  lidar_pc_topic: "/point_cloud"
+  lidar_scan_topic: "/scan"
+  lidar_frameskip_cnt: 5
+  lidar_pc_node_name : ""
+  lidar_scan_node_name : ""
+  enable_flat_scan: False
+
+IMU:
+  imu_prim_path: "/base_link/imu" # Start from robot_prim_path path
+  imu_name: "imu"
+  # Fastest frequency is physics_freq, since frame update speed
+  imu_frequency: 360
+  imu_translation: [0, 0, 0]
+  imu_orientation: [1, 0, 0, 0]
+  imu_linear_acceleration_filter_size : 1
+  imu_angular_velocity_filter_size : 1
+  imu_orientation_filter_size : 1
+  imu_topic_name : "/imu"
+  imu_frame_id : "base_link"
+
+GPS: # GPS acts as a fake GPS, it is not a real GPS, just UTM --> Spherical coordinates (acts like Gazebo)
+  gps_topic_name : "/gps"
+  gps_frame_id : "gps"
+  gps_frameskip_cnt : 5 # Recommend to set same as LiDAR frameskip_cnts
+  latitude_reference : 36.766492
+  longitude_reference : 127.281691
+  altitude_reference : 0.0
+
+Friction:
+  apply_wheel_friction: True
+  apply_ground_friction: True
+  wheel_material_path: "/World/Materials/Tire"
+  ground_material_path: "/World/Materials/Ground"
+  ground_prim_path: "/World/City/Terrian"
